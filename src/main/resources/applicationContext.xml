@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+
+    <bean id="ElectroMusic"
+          class="ru.vodolazhsky.spring.ElectroMusic">
+    </bean>
+
+    <bean id="RockMusic"
+          class="ru.vodolazhsky.spring.RockMusic">
+    </bean>
+
+    <bean id="ClassicalMusic"
+          class="ru.vodolazhsky.spring.ClassicalMusic"
+          scope="singleton"
+          init-method="initMethod"
+          destroy-method="destroyMethod"
+          factory-method="getClassicalMusic">
+    </bean>
+
+
+    <bean id="MusicPlayer"
+          class="ru.vodolazhsky.spring.MusicPlayer"
+          scope="prototype">
+        <property name="musicList">
+            <list>
+                <ref bean="ElectroMusic"/>
+                <ref bean="RockMusic"/>
+                <ref bean="ClassicalMusic"/>
+            </list>
+        </property>
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="50"/>
+    </bean>
+
+</beans>
